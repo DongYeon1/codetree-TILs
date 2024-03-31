@@ -91,9 +91,8 @@ def init_board(Rr,Rc,santa_info): #루돌프는 -1 번, 산타는 각 idx
         board[Sr][Sc] = idx
 
 def print_board(b):
-    for i in range(len(b)):
-        print(b[i])
-    print("-------------------------")
+    for i in range(1,len(b)):
+        print(b[i][1:])
 def distance(r1,c1,r2,c2):
     return (r1-r2)**2 + (c1-c2)**2
 
@@ -120,9 +119,9 @@ def rudolf_move(Rr,Rc,santa_info): #루돌프가 좌표바깥으로 이동하는
                 elif santa_info[c_santa_idx][2][0] == tSr:
                     if santa_info[c_santa_idx][2][1] < tSc:
                         c_santa_idx = idx
-    #가장 가까운 산타 찾기 완료
-    if c_dist == float("inf"):
-        print("Error:c_dist is infinite")
+    # #가장 가까운 산타 찾기 완료
+    # if c_dist == float("inf"):
+    #     print("Error:c_dist is infinite")
 
     cSr , cSc = santa_info[c_santa_idx][2]
     c_direction = -1
@@ -239,7 +238,7 @@ def bump_to_rudolf(direction,bumping_santa_idx):
         tr, tc = pos
         board[tr][tc] = 0
         board[nSr][nSc] = bumping_santa_idx
-        rest_cnt = 2
+        rest_cnt = 1
         pos = [nSr, nSc]
         score += D
         santa_info[bumping_santa_idx] = [alive, rest_cnt, pos, score]
@@ -258,6 +257,18 @@ def print_santa_score(santa_info):
         result += str(santa_info[idx][3])
         result += " "
     return result.strip()
+
+def print_score(santa_info):
+    result = ""
+    for idx in range(1,len(santa_info)):
+        result += f"{idx}:{santa_info[idx][3]} "
+    print("score:",result)
+
+def print_rest_cnt(santa_info):
+    result = ""
+    for idx in range(1,len(santa_info)):
+        result += f"{idx}:{santa_info[idx][2]} "
+    print("r_cnt:",result)
 def simulate():
     global Rr,Rc,santa_info,board
     init_board(Rr,Rc,santa_info)
@@ -273,6 +284,9 @@ def simulate():
         board[Rr][Rc] = -1
         #print("rudolf turn")
         #print_board(board)
+        #print_score(santa_info)
+        #print_rest_cnt(santa_info)
+        #print("=====================")
         #루돌프 이동 끝나고, 산타가 번호순대로 움직일 차례
         for santa_idx in range(1, len(santa_info)):
             nSr,nSc,c_direction = santa_move(Rr, Rc, santa_idx)
@@ -284,12 +298,16 @@ def simulate():
                     board[tSr][tSc] = 0
                     santa_info[santa_idx][2] = [nSr,nSc]
                     board[nSr][nSc] = santa_idx
-        #print("santa turn")
-        #print_board(board)
+
         #산타이동이 끝나고, 이제 살아있는 산타들에게 +1 점씩
         for santa_idx in range(1, len(santa_info)):
             if santa_info[santa_idx][0] == True:
                 santa_info[santa_idx][3] += 1
+        # print("santa turn")
+        # print_board(board)
+        # print_score(santa_info)
+        # print_rest_cnt(santa_info)
+        # print("=====================")
 
     print(print_santa_score(santa_info))
 
