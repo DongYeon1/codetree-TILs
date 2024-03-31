@@ -77,9 +77,9 @@ for _ in range(P):
     santa_info[Pn] = [True,0,[Sr,Sc],0]
 santa_info[0] = [False,float("inf"),[0,0],0]
 
-#print(N, M, P, C, D)
-#print(Rr,Rc)
-#print(santa_info)
+# print(N, M, P, C, D)
+# print(Rr,Rc)
+# print(santa_info)
 
 dr = [-1,0,1,0,-1,1,1,-1] #0~3번째까지는 상우하좌
 dc = [0,1,0,-1,1,1,-1,-1] #4~7번째까지는 상우,하우,하좌,상좌
@@ -234,7 +234,8 @@ def bump_to_rudolf(direction,bumping_santa_idx):
     nSc = Rc + op_dc*D
     if in_board(nSr, nSc):
         if board[nSr][nSc] > 0:  # 밀려난 칸에 다른 산타가 있어서 상호작용이 발생하는 경우
-            interaction(nSr, nSc, op_dr,op_dc)
+            if board[nSr][nSc] != bumping_santa_idx:
+                interaction(nSr, nSc, op_dr,op_dc)
         tr, tc = pos
         board[tr][tc] = 0
         board[nSr][nSc] = bumping_santa_idx
@@ -267,14 +268,14 @@ def print_score(santa_info):
 def print_rest_cnt(santa_info):
     result = ""
     for idx in range(1,len(santa_info)):
-        result += f"{idx}:{santa_info[idx][2]} "
+        result += f"{idx}:{santa_info[idx][1]} "
     print("r_cnt:",result)
 def simulate():
     global Rr,Rc,santa_info,board
     init_board(Rr,Rc,santa_info)
-    #print_board(board)
+    # print_board(board)
     for turn in range(1,M+1):
-        #print("round:", turn)
+        # print("round:", turn)
         nRr,nRc,c_direction,target_santa_idx = rudolf_move(Rr,Rc,santa_info)
         if board[nRr][nRc] > 0: #루돌프가 산타에 충돌한 경우
             bump_to_santa(c_direction,target_santa_idx)
@@ -282,11 +283,11 @@ def simulate():
         Rr = nRr
         Rc = nRc
         board[Rr][Rc] = -1
-        #print("rudolf turn")
-        #print_board(board)
-        #print_score(santa_info)
-        #print_rest_cnt(santa_info)
-        #print("=====================")
+        # print("rudolf turn")
+        # print_board(board)
+        # print_score(santa_info)
+        # print_rest_cnt(santa_info)
+        # print("=====================")
         #루돌프 이동 끝나고, 산타가 번호순대로 움직일 차례
         for santa_idx in range(1, len(santa_info)):
             nSr,nSc,c_direction = santa_move(Rr, Rc, santa_idx)
