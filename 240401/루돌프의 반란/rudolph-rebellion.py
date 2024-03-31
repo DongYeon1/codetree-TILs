@@ -159,26 +159,6 @@ def bump_to_santa(direction,bumped_santa_idx):
         score += C
         santa_info[bumped_santa_idx] = [alive,rest_cnt,pos,score]
 
-# def bump_to_santa(direction,bumped_santa_idx):
-#     global board, C
-#     alive, rest_cnt, pos, score = santa_info[bumped_santa_idx]
-#     tSr,tSc = pos
-#     nSr = tSr + dr[direction]*C
-#     nSc = tSc + dc[direction]*C
-#     if in_board(nSr,nSc):
-#         if board[nSr][nSc] > 0: #밀려난 칸에 다른 산타가 있어서 상호작용이 발생하는 경우
-#             interaction(nSr,nSc,dc[direction])
-#         board[nSr][nSc] = bumped_santa_idx
-#         rest_cnt = 2
-#         pos = [nSr,nSc]
-#         score += C
-#         santa_info[bumped_santa_idx] = [alive,rest_cnt,pos,score]
-#     else:
-#         alive = False
-#         rest_cnt = float("inf")
-#         pos = [nSr,nSc]
-#         score += C
-#         santa_info[bumped_santa_idx] = [alive,rest_cnt,pos,score]
 def interaction(tr,tc,tdr,tdc):
     global board
     stack = []
@@ -315,45 +295,3 @@ def simulate():
 
 
 simulate()
-'''
-함수
-# simulate()
-M의 턴을 순서대로 진행, 루돌프, 산타들
-한턴 끝나고 살아남는 산타들의 점수 업데이트 +1
-
-# 거리 계산 함수(rr,rc,santa_idx)
-(r1-r2)^2 + (c1-c2)^2
-
-# rudolf_move(Rr,Rc)
-
-#santa_move(santa_idx)
-탈락했으면 pass
-기절했으면 기절cnt -1
-산타가 없는 게임판 내 이동 가능한 네가지 방향으로 이동해본 후
-루돌프와 거리가 가장 가까워지는 방향으로 이동
-가까워지지 않으면 이동 x
-여러개와 가까워질 수 있으면 상우하좌 우선순위에 맞춰 이동
-추후 과정을 위해 리턴값을
-어느방향으로 움직였는지와 충돌이 일어나는지 여부를 리턴함
-u,r,d,l
-
-#충돌여부 확인 함수(Rr,Rc,santa_info)
-
-#bump(idx)
-충돌이 일어나면 진행
-점수 정산
-만약 대각선 방향 충돌이라면 대각선 이동 1개가 1칸 움직임
-밀려난 산타의 정보를 업데이트(생존여부,기절cnt,좌표)
-밀려난 산타에 의해 생기는
-상호작용 발생여부를 체크해야함
-
-# interaction(idx)
-bump 에 의해 확인되는 값으로 연쇄작용여부 판단
-연쇄작용은 stack 으로 구현
-stack 에 있는 모든 산타 정보 업데이트
-
-
-좌표값은
-1,1 ~ N,N까지
-0 이나 N+1 부터는 게임판 바깥으로 나간 것으로 간주
-'''
