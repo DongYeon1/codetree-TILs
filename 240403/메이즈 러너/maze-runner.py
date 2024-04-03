@@ -98,6 +98,7 @@ def move_player():
             if p_r[i] == p_r[0] and p_c[i] == p_c[0]:
                 p_r[i] = -1
                 p_c[i] = -1
+                board[fnpr][fnpc].remove(i)
                 escape_cnt += 1
 
 def make_square(er,ec,pr,pc):
@@ -180,7 +181,7 @@ def zero_to_set(sr,sc,side_len):
     global N, M, K, board, move_cnt
     for r in range(sr,sr+side_len):
         for c in range(sc,sc+side_len):
-            if type(board[r][c]==int) and board[r][c] == 0:
+            if type(board[r][c])==int and board[r][c] == 0:
                 board[r][c] = set()
 
 def update_info():
