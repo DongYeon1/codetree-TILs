@@ -101,18 +101,21 @@ def move_player():
                 board[fnpr][fnpc].remove(i)
                 escape_cnt += 1
 
-def make_square(er,ec,pr,pc):
+def make_square(er,ec,pr,pc): #보드 안에 있을때만 진행하도록 추가
     h = abs(er-pr) + 1
     w = abs(ec-pc) + 1
     side = max(h,w)
     sr,sc = min(er,pr),min(ec,pc)
+    #print(sr,sc)
     cnt = side-1
     if w > h:
         while sr > 1 and cnt > 0:
             sr -= 1
+            cnt -= 1
     elif h > w:
         while sc > 1 and cnt > 0:
             sc -= 1
+            cnt -= 1
     return sr,sc,side
 
 def select_square():
@@ -123,9 +126,11 @@ def select_square():
     for i in range(1,M+1):
         pr = p_r[i]
         pc = p_c[i]
-        if pr == p_r[0] and pc == p_c[0]:
+        if pr == -1 and pc == -1:
             continue
+        #print(pr,pc)
         sr,sc,side = make_square(er,ec,pr,pc)
+        #print(sr,sc,side)
         if fside > side:
             fr,fc,fside = sr,sc,side
         elif fside == side:
@@ -144,36 +149,31 @@ def rotate_square(sr,sc,side_len):
         return
     if side_len == 0:
         return
-    upside = deque([])
-    rightside = deque([])
-    downside = deque([])
-    leftside = deque([])
+    q = deque([])
 
-    for i in range(side_len):
-        upside.append(board[sr][sc+i])
-        rightside.append(board[sr+i][sc+side_len-1])
-        downside.append(board[sr+side_len-1][sc+i])
-        leftside.append(board[sr+i][sc])
-    for i in range(side_len):
-        elem = leftside.pop()
-        if type(elem) == int:
-            elem -= 1
-        board[sr][sc + i] = elem
+    for i in range(side_len-1):
+        #print(sr,sc+i)
+        q.append(board[sr][sc+i])
 
-        elem = upside.popleft()
-        if type(elem) == int:
-            elem -= 1
-        board[sr + i][sc + side_len - 1] = elem
-
-        elem = rightside.pop()
-        if type(elem) == int:
-            elem -= 1
-        board[sr + side_len - 1][sc + i] = elem
-
-        elem = downside.popleft()
-        if type(elem) == int:
-            elem -= 1
-        board[sr + i][sc] = elem
+    for i in range(side_len-1):
+        q.append(board[sr+i][sc+side_len-1])
+    for i in range(side_len - 1):
+        q.append(board[sr+side_len-1][sc+side_len-1-i])
+    for i in range(side_len - 1):
+        q.append(board[sr+side_len-1-i][sc])
+    for i in range(len(q)):
+        if type(q[i]) == int:
+            q[i] -= 1
+    for _ in range(side_len-1):
+        q.appendleft(q.pop())
+    for i in range(side_len-1):
+        board[sr][sc+i] = q.popleft()
+    for i in range(side_len - 1):
+        board[sr + i][sc + side_len - 1] = q.popleft()
+    for i in range(side_len - 1):
+        board[sr + side_len - 1][sc + side_len - 1 - i] = q.popleft()
+    for i in range(side_len - 1):
+        board[sr + side_len - 1 - i][sc] = q.popleft()
 
     rotate_square(sr+1,sc+1,side_len-2)
 
@@ -194,19 +194,22 @@ def update_info():
                     p_c[idx] = c
 
 def simulate():
-    global N, M, K, board, move_cnt,escape_cnt
+    global N, M, K, board, move_cnt, escape_cnt
+    # print_board(board)
     for i in range(1,K+1):
+        move_player()
+        # print(f"{i}초- 참가자 이동(총 이동횟수:{move_cnt})")
+        # print_board(board)
         if escape_cnt == M:
             break
-        move_player()
-        #print(f"{i}초- 참가자 이동(총 이동횟수:{move_cnt})")
-        #print_board(board)
         sr,sc,side_len = select_square()
-        rotate_square(sr,sc,side_len)
+        #print(p_r[0],p_c[0])
+        #print(sr,sc,side_len)
+        rotate_square(sr, sc, side_len)
         zero_to_set(sr, sc, side_len)
         update_info()
-        #print(f"{i}초 후 최종 결과")
-        #print_board(board)
+        # print(f"{i}초 후 최종 결과")
+        # print_board(board)
     print(move_cnt)
     print(p_r[0],p_c[0])
 
