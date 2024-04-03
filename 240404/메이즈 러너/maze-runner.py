@@ -107,12 +107,13 @@ def make_square(er,ec,pr,pc): #보드 안에 있을때만 진행하도록 추가
     side = max(h,w)
     sr,sc = min(er,pr),min(ec,pc)
     #print(sr,sc)
-    cnt = side-1
     if w > h:
+        cnt = w-h
         while sr > 1 and cnt > 0:
             sr -= 1
             cnt -= 1
     elif h > w:
+        cnt = h - w
         while sc > 1 and cnt > 0:
             sc -= 1
             cnt -= 1
@@ -128,7 +129,7 @@ def select_square():
         pc = p_c[i]
         if pr == -1 and pc == -1:
             continue
-        #print(pr,pc)
+        #print(er,ec,pr,pc)
         sr,sc,side = make_square(er,ec,pr,pc)
         #print(sr,sc,side)
         if fside > side:
@@ -152,7 +153,6 @@ def rotate_square(sr,sc,side_len):
     q = deque([])
 
     for i in range(side_len-1):
-        #print(sr,sc+i)
         q.append(board[sr][sc+i])
 
     for i in range(side_len-1):
@@ -195,11 +195,11 @@ def update_info():
 
 def simulate():
     global N, M, K, board, move_cnt, escape_cnt
-    # print_board(board)
+    #print_board(board)
     for i in range(1,K+1):
         move_player()
-        # print(f"{i}초- 참가자 이동(총 이동횟수:{move_cnt})")
-        # print_board(board)
+        #print(f"{i}초- 참가자 이동(총 이동횟수:{move_cnt})")
+        #print_board(board)
         if escape_cnt == M:
             break
         sr,sc,side_len = select_square()
@@ -208,8 +208,8 @@ def simulate():
         rotate_square(sr, sc, side_len)
         zero_to_set(sr, sc, side_len)
         update_info()
-        # print(f"{i}초 후 최종 결과")
-        # print_board(board)
+        #print(f"{i}초 후 최종 결과")
+        #print_board(board)
     print(move_cnt)
     print(p_r[0],p_c[0])
 
