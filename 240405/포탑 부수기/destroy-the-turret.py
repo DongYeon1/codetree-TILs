@@ -105,13 +105,14 @@ def in_board(r,c):
 
 def convert_point(r,c):
     if r == -1:
-        return (N-1,c)
-    elif r == N:
-        return (0,c)
-    elif c == -1:
-        return (r,M-1)
-    elif c == M:
-        return (r,0)
+        r = N-1
+    if r == N:
+        r = 0
+    if c == -1:
+        c = M-1
+    if c == M:
+        c = 0
+    return r,c
 
 def lazer_route(graph,attacker,victim):
     dr = [0,1,0,-1]
@@ -201,7 +202,7 @@ def attack(attacker,victim):
             non_related_tower.remove(related)
         lazer_route_set.remove((attacker[1],attacker[2]))
         graph[victim[1]][victim[2]] -= power
-        if graph[victim[1]][victim[2]] <= 0:
+        if graph[victim[1]][victim[2]] < 0:
             graph[victim[1]][victim[2]] = 0
         lazer_route_set.remove((victim[1],victim[2]))
         for r,c in lazer_route_set:
@@ -216,7 +217,7 @@ def attack(attacker,victim):
             non_related_tower.remove(related)
         bomb_range_set.remove((attacker[1],attacker[2]))
         graph[victim[1]][victim[2]] -= power
-        if graph[victim[1]][victim[2]] <= 0:
+        if graph[victim[1]][victim[2]] < 0:
             graph[victim[1]][victim[2]] = 0
         bomb_range_set.remove((victim[1],victim[2]))
         for r,c in bomb_range_set:
