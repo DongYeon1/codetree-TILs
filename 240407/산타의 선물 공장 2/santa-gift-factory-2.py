@@ -76,16 +76,24 @@ def move_front(m_src,m_dst): ## 3가지 케이스 다 테스트 돌려봐야함
         b_num_list[m_src] = [1,dst_start,dst_start]
         p_num_list[dst_start] = [-1,-1]
         b_num_list[m_dst][0] -= 1
-        b_num_list[m_dst][1] = dst_second
-        p_num_list[dst_second][0] = -1
+        if b_num_list[m_dst][0] == 0:
+            b_num_list[m_dst][1] = -1
+            b_num_list[m_dst][2] = -1
+        else:
+            b_num_list[m_dst][1] = dst_second
+            p_num_list[dst_second][0] = -1
     elif b_num_list[m_dst][0] == 0:
         src_start = b_num_list[m_src][1]
         src_second = p_num_list[src_start][1]
         b_num_list[m_dst] = [1,src_start,src_start]
         p_num_list[src_start] = [-1,-1]
         b_num_list[m_src][0] -= 1
-        b_num_list[m_src][1] = src_second
-        p_num_list[src_second][0] = -1
+        if b_num_list[m_src][0] == 0:
+            b_num_list[m_src][1] = -1
+            b_num_list[m_src][2] = -1
+        else:
+            b_num_list[m_src][1] = src_second
+            p_num_list[src_second][0] = -1
     else: #테스트 완료
         src_start = b_num_list[m_src][1]
         src_second = p_num_list[src_start][1]
