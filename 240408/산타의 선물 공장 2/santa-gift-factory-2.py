@@ -54,14 +54,14 @@ def move_all(m_src,m_dst):
             b_num_list[m_dst] = b_num_list[m_src]
             b_num_list[m_src] = [0, -1, -1]
         else:
-            new_start = b_num_list[m_src][1]
-            src_end = b_num_list[m_src][2]
+            new_start = b_num_list[m_src][1] #4
+            src_end = b_num_list[m_src][2] #5
             b_num_list[m_src] = [0,-1,-1]
             b_num_list[m_dst][0] += src_cnt
-            dst_start = b_num_list[m_dst][1]
-            b_num_list[m_dst][1] = new_start
-            p_num_list[dst_start][0] = src_end
-            p_num_list[src_end][1] = dst_start
+            dst_start = b_num_list[m_dst][1] #3
+            b_num_list[m_dst][1] = new_start #4
+            p_num_list[dst_start][0] = src_end #5
+            p_num_list[src_end][1] = dst_start #
 
     print(b_num_list[m_dst][0])
 
@@ -141,6 +141,7 @@ def move_half(m_src,m_dst): #옮기지 않으면 출력하지 않는가?? 문제
             p_num_list[target_p_num][1] = dst_start
             p_num_list[new_src_start][0] = -1
             b_num_list[m_src][1] = new_src_start
+            b_num_list[m_dst][1] = src_start
 
     print(b_num_list[m_dst][0])
 
