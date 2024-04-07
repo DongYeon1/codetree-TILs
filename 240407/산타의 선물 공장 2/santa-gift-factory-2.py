@@ -105,6 +105,11 @@ def move_front(m_src,m_dst): ## 3가지 케이스 다 테스트 돌려봐야함
         p_num_list[dst_second][0] = src_start
         p_num_list[dst_start][1] = src_second
         p_num_list[src_second][0] = dst_start
+        if b_num_list[m_src][0] == 1:
+            b_num_list[m_src][2] = dst_start
+        if b_num_list[m_dst][0] == 1:
+            b_num_list[m_dst][2] = src_start
+
 
     print(b_num_list[m_dst][0])
 
