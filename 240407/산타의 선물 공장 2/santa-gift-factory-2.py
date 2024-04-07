@@ -67,7 +67,7 @@ def move_front(m_src,m_dst): ## 3가지 케이스 다 테스트 돌려봐야함
     elif len(b_num_list[m_src]) == 0:
         if len(b_num_list[m_dst]) == 1:
             b_num_list[m_src] = b_num_list[m_dst]
-            b_num_list[m_dst] = []
+            b_num_list[m_dst] = deque([])
         else:
             dst_start = b_num_list[m_dst].popleft()
             b_num_list[m_src].appendleft(dst_start)
@@ -76,7 +76,7 @@ def move_front(m_src,m_dst): ## 3가지 케이스 다 테스트 돌려봐야함
     elif len(b_num_list[m_dst]) == 0:
         if len(b_num_list[m_src]) == 1:
             b_num_list[m_dst] = b_num_list[m_src]
-            b_num_list[m_src] = []
+            b_num_list[m_src] = deque([])
         else:
             src_start = b_num_list[m_src].popleft()
             b_num_list[m_dst].appendleft(src_start)
