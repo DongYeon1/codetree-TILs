@@ -48,15 +48,20 @@ def move_all(m_src,m_dst):
     global b_num_list, p_num_list
 
     src_cnt = b_num_list[m_src][0]
+    dst_cnt = b_num_list[m_dst][0]
     if src_cnt != 0:
-        new_start = b_num_list[m_src][1]
-        src_end = b_num_list[m_src][2]
-        b_num_list[m_src] = [0,-1,-1]
-        b_num_list[m_dst][0] += src_cnt
-        dst_start = b_num_list[m_dst][1]
-        b_num_list[m_dst][1] = new_start
-        p_num_list[src_end][1] = dst_start
-        p_num_list[dst_start][0] = src_end
+        if dst_cnt == 0:
+            b_num_list[m_dst] = b_num_list[m_src]
+            b_num_list[m_src] = [0, -1, -1]
+        else:
+            new_start = b_num_list[m_src][1]
+            src_end = b_num_list[m_src][2]
+            b_num_list[m_src] = [0,-1,-1]
+            b_num_list[m_dst][0] += src_cnt
+            dst_start = b_num_list[m_dst][1]
+            b_num_list[m_dst][1] = new_start
+            p_num_list[src_end][1] = dst_start
+            p_num_list[dst_start][0] = src_end
 
     print(b_num_list[m_dst][0])
 
