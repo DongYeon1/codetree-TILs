@@ -99,7 +99,7 @@ def move_half(m_src,m_dst): #옮기지 않으면 출력하지 않는가?? 문제
     global b_num_list, p_num_list
 
     n = b_num_list[m_src][0]
-    target = math.floor(n/2)
+    target = n//2
     src_start = b_num_list[m_src][1]
     dst_start = b_num_list[m_dst][1]
     target_p_num = src_start
@@ -109,12 +109,18 @@ def move_half(m_src,m_dst): #옮기지 않으면 출력하지 않는가?? 문제
         new_src_start = p_num_list[target_p_num][1]
         b_num_list[m_src][0] -= target
         b_num_list[m_dst][0] += target
-        p_num_list[dst_start][0] = target_p_num
+        if dst_start != -1:
+            p_num_list[dst_start][0] = target_p_num
         p_num_list[target_p_num][1] = dst_start
         p_num_list[new_src_start][0] = -1
         b_num_list[m_src][1] = new_src_start
-        b_num_list[m_dst][1] = target_p_num
-        print(b_num_list[m_dst][0])
+        if dst_start == -1:
+            b_num_list[m_dst][2] = target_p_num
+            b_num_list[m_dst][1] = src_start
+        else:
+            b_num_list[m_dst][1] = src_start
+        #print("s,t:",dst_start,src_start,target_p_num)
+    print(b_num_list[m_dst][0])
 
 def p_num_info(p_num):
     global b_num_list, p_num_list
@@ -138,7 +144,7 @@ p_num_list = [[]]
 q = int(input())
 for stage in range(1,q+1):
     order = list(map(int,input().split()))
-    #print(order)
+    #print(stage,":",order)
     if order[0] == 100:
         n = order[1]
         m = order[2]
@@ -170,3 +176,5 @@ for stage in range(1,q+1):
     elif order[0] == 600:
         b_num = order[1]
         b_num_info(b_num)
+    # print(b_num_list)
+    # print(p_num_list)
