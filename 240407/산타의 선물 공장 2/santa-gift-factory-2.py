@@ -106,8 +106,6 @@ def move_half(m_src,m_dst):
     n = len(b_num_list[m_src])
     cnt = n//2
     half_q = deque([])
-    src_start = b_num_list[m_src][0]
-    half_end = src_start
     if n > 1:
         for _ in range(cnt):
             half_q.append(b_num_list[m_src].popleft())
