@@ -114,8 +114,7 @@ def move_half(m_src,m_dst): #옮기지 않으면 출력하지 않는가?? 문제
         p_num_list[new_src_start][0] = -1
         b_num_list[m_src][1] = new_src_start
         b_num_list[m_dst][1] = target_p_num
-
-    print(b_num_list[m_dst][0])
+        print(b_num_list[m_dst][0])
 
 def p_num_info(p_num):
     global b_num_list, p_num_list
