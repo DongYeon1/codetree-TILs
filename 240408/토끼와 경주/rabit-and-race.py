@@ -66,7 +66,11 @@ def move_rabbit(pid):
     candidate_point = []
     for i in range(4):
         tr, tc = point
-        for _ in range(d):
+        if i == 0 or i == 2:
+            real_d = d % ((M-1)*2)
+        elif i == 1 or i == 3:
+            real_d = d % ((N-1)*2)
+        for _ in range(real_d):
             tr += dr[i]
             tc += dc[i]
             if not in_board(tr, tc):
